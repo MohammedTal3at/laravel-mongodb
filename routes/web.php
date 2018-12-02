@@ -15,4 +15,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('test','TestMailController@send');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+Auth::routes();
+
+//posts
+Route::get('posts', 'PostController@index')->name('posts.index');
+Route::get('posts/create', 'PostController@create')->name('posts.create');
+Route::post('posts/store', 'PostController@store');
+Route::get('posts/show/{id}', 'PostController@show');
+Route::post('posts/edit/{id}', 'PostController@edit');
+Route::post('posts/update/{id}', 'PostController@update');
+Route::get('posts/delete/{id}', 'PostController@delete');
