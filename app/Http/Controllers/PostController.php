@@ -37,27 +37,31 @@ class PostController extends Controller
 				'body'=>$data['body'],
 				'user'=>['id'=>$user->_id , 'name'=>$user->name],
 			]);
-			$posts = Post::all();
-			return   back()->with(['message'=>'Created Successfuly !' , 'alert-class' => 'alert-success' , 'posts'=>$posts]);
+			return   back()->with(['message'=>'Created Successfuly !' , 'alert-class' => 'alert-success']);
 			
 
 		} catch (Exception $e) {
-			return back()->with(['message'=>$e->getMessge() , 'alert-class' => 'alert-success']);
+			return back()->with(['message'=>$e->getMessge() , 'alert-class' => 'alert-danger']);
 			
 		}
 	}
 
+	public function edit($id)
+	{
+		$post = Post::findOrFail($id);
+		return view('posts.edit',compact('post'));
+	}
 	public function update(Request $request , $id)
 	{
 		$data = $request->all();
 
 		try {
 			
-			Post::whereId($data['id'])->update($data);
-			return response()->json(['message'=>'post updated successfully !'] , 200);
+			Post::whereId($id)->update($data);
+			return   back()->with(['message'=>'Updated Successfuly !' , 'alert-class' => 'alert-success' ]);
 
 		} catch (Exception $e) {
-			return response()->json(['message'=>$e->getMessge()] , 500);
+			return back()->with(['message'=>$e->getMessge() , 'alert-class' => 'alert-danger']);
 			
 		}
 	}
@@ -82,7 +86,7 @@ class PostController extends Controller
 			return back()->with(['message'=>'Post Deleted Successfuly !' , 'alert-class' => 'alert-success']);
 
 		} catch (Exception $e) {
-			return back()->with(['message'=>$e->getMessge() , 'alert-class' => 'alert-success']);
+			return back()->with(['message'=>$e->getMessge() , 'alert-class' => 'alert-danger']);
 			
 		}
 	}
